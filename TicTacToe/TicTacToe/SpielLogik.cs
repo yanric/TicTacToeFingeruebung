@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TicTacToe
@@ -15,16 +16,22 @@ namespace TicTacToe
         //Spielstatus Objekt
         private SpielStatus status;
 
+        //Spielmodi für die jeweiligen Spieler
+        Spielmodi spieler1;
+        Spielmodi spieler2;
+
         //initialisiert ein neues Spiel abhängig der übergebenen Modi
         public SpielStatus InitSpiel(Spielmodi spieler1, Spielmodi spieler2)
         {
+            this.spieler1 = spieler1;
+            this.spieler2 = spieler2;
             if (spieler1==Spielmodi.KILeicht || spieler1==Spielmodi.KISchwer)
             {
-                status = new SpielStatus(true);
+                status = new SpielStatus(spieler1, spieler2);
             }
             else
             {
-                status = new SpielStatus(false);
+                status = new SpielStatus(spieler1, spieler2);
             }
             return status;
         }
@@ -33,13 +40,35 @@ namespace TicTacToe
         public SpielStatus KiZug()
         {
             //todo: Übergabe prüfen, Sieg feststellen, Spieler aktualisieren, unentschieden feststellen
+
+            if (status.GetSpieler1Zug())
+            {
+                if (spieler1==Spielmodi.KILeicht)
+                {
+                    LeichteKI ki = new LeichteKI();
+                    status.Setzte(ki.GetZug(status.GetFeld()), status.GetSpieler1Zug());
+                    status.SetSiegFelder(SiegTesten());
+                    status.ZugBeenden();
+                }
+            }
+            else
+            {
+                if (spieler2 == Spielmodi.KILeicht)
+                {
+                    LeichteKI ki = new LeichteKI();
+                    status.Setzte(ki.GetZug(status.GetFeld()), status.GetSpieler1Zug());
+                    status.SetSiegFelder(SiegTesten());
+                    status.ZugBeenden();
+                }
+            }
+
+
             return status;
         }
 
         //Methode die im Falle eines Zuges eines Menschen aufgerufen wird
         public SpielStatus MenschZug(Koordinate k)
         {
-            //todo: unentschieden feststellen
             status.SetValide(Validiere(k));
             if (status.GetValide())
             {

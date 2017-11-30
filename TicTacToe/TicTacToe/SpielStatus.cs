@@ -13,6 +13,10 @@ namespace TicTacToe
         //Repräsentation des Spielfeldes
         private int[,] feld = new int[3, 3];
 
+        //Spielmodi der Spieler
+        private SpielLogik.Spielmodi spieler1;
+        private SpielLogik.Spielmodi spieler2;
+
         //Gibt an, ob der Zug gültig war
         private bool valide = true;
 
@@ -32,9 +36,14 @@ namespace TicTacToe
         private Koordinate[] siegFelder;
 
         //Konstruktor
-        public SpielStatus(bool kiZuerst)
+        public SpielStatus(SpielLogik.Spielmodi spieler1, SpielLogik.Spielmodi spieler2)
         {
-            kiZug = kiZuerst;
+            this.spieler1 = spieler1;
+            this.spieler2 = spieler2;
+            if (spieler1==SpielLogik.Spielmodi.KILeicht || spieler1==SpielLogik.Spielmodi.KISchwer)
+            {
+                kiZug = true;
+            }
         }
 
         //Getter für das Spielfeld
@@ -97,7 +106,8 @@ namespace TicTacToe
             }
         }
         /*Negiert den Wert der Spieler1Zug Flag und erhöht den Wert des Zug Zählers um 1.
-         * Im Falle eines vollen Spielfeldes wird die Unentschieden Flag auf true gesetzt */
+         * Im Falle eines vollen Spielfeldes wird die Unentschieden Flag auf true gesetzt.
+         * Ist der Spieler der jetzt drann ist eine KI so wird die Flag entsprechend gesetzt*/
         public void ZugBeenden()
         {
             spieler1Zug = !spieler1Zug;
@@ -105,6 +115,15 @@ namespace TicTacToe
             if (zuege>=9)
             {
                 unentschieden = true;
+            }
+            kiZug = false;
+            if (spieler1Zug && (spieler1==SpielLogik.Spielmodi.KILeicht || spieler1==SpielLogik.Spielmodi.KISchwer))
+            {
+                kiZug = true;
+            }
+            if (!spieler1Zug && (spieler2 == SpielLogik.Spielmodi.KILeicht || spieler2 == SpielLogik.Spielmodi.KISchwer))
+            {
+                kiZug = true;
             }
         }
     }
