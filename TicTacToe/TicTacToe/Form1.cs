@@ -94,7 +94,6 @@ namespace TicTacToe
                     buttons[i, j].Enabled = true;
                 }
             }
-
             Anzeigen();
         }
 

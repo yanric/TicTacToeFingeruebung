@@ -51,6 +51,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GewichteteKoordinate.cs" />
     <Compile Include="HilfsKlasse.cs" />
     <Compile Include="Koordinate.cs" />
     <Compile Include="LeichteKI.cs" />
@@ -62,6 +63,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchwereKI.cs" />
+    <Compile Include="KISpielbrett.cs" />
     <Compile Include="SpielLogik.cs" />
     <Compile Include="SpielStatus.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -39,30 +39,30 @@ namespace TicTacToe
         //Methode die im Falle eines Zuges einer KI aufgerufen wird
         public SpielStatus KiZug()
         {
-            //todo: Übergabe prüfen, Sieg feststellen, Spieler aktualisieren, unentschieden feststellen
-
-            if (status.GetSpieler1Zug())
+            //Unabhängig vom aktuellen Spieler wird die Leichte KI nach einen zufälligen Zug gefragt
+            if (spieler1==Spielmodi.KILeicht||spieler2==Spielmodi.KILeicht)
             {
-                if (spieler1==Spielmodi.KILeicht)
-                {
-                    LeichteKI ki = new LeichteKI();
-                    status.Setzte(ki.GetZug(status.GetFeld()), status.GetSpieler1Zug());
-                    status.SetSiegFelder(SiegTesten());
-                    status.ZugBeenden();
-                }
+                LeichteKI ki = new LeichteKI();
+                status.Setzte(ki.GetZug(status.GetFeld()), status.GetSpieler1Zug());
+                status.SetSiegFelder(SiegTesten());
+                status.ZugBeenden();
             }
+
+            //Bei der Schweren KI muss die Rolle abgefragt werden, damit die KI aus der richtigen Perspektive spielt
             else
             {
-                if (spieler2 == Spielmodi.KILeicht)
+                SchwereKI ki = new SchwereKI();
+                if (status.GetSpieler1Zug() && spieler1 == Spielmodi.KISchwer)
                 {
-                    LeichteKI ki = new LeichteKI();
-                    status.Setzte(ki.GetZug(status.GetFeld()), status.GetSpieler1Zug());
-                    status.SetSiegFelder(SiegTesten());
-                    status.ZugBeenden();
+                    status.Setzte(ki.GetZug(status.GetFeld(), 1), status.GetSpieler1Zug());
                 }
+                else if (!status.GetSpieler1Zug() && spieler2 == Spielmodi.KISchwer)
+                {
+                    status.Setzte(ki.GetZug(status.GetFeld(), 2), status.GetSpieler1Zug());
+                }
+                status.SetSiegFelder(SiegTesten());
+                status.ZugBeenden();
             }
-
-
             return status;
         }
 
