@@ -7,39 +7,48 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
-    //Verwaltet das Spiel
+    /// <summary>
+    /// Verwaltet das Spiel.
+    /// </summary>
     class SpielLogik
     {
-        //Spielmodi die für die Spieler gewählt werden können
+        /// <summary>
+        /// Spielmodi, die für die Spieler gewählt werden können.
+        /// </summary>
         public enum Spielmodi{Mensch,KILeicht,KISchwer};
 
-        //Spielstatus Objekt
+        /// <summary>
+        /// SpielStatus Objekt, mit dem das Spiel verwaltet wird und welches an die Oberfläche zurückgegeben wird.
+        /// </summary>
         private SpielStatus status;
 
-        //Spielmodi für die jeweiligen Spieler
+        /// <summary>
+        /// Spielmodi für die jeweiligen Spieler.
+        /// </summary>
         Spielmodi spieler1;
         Spielmodi spieler2;
 
-        //initialisiert ein neues Spiel abhängig der übergebenen Modi
+        /// <summary>
+        /// Initialisiert ein neues Spiel abhängig der übergebenen Modi.
+        /// </summary>
+        /// <param name="spieler1">Gewählter Spielmodus für Spieler 1.</param>
+        /// <param name="spieler2">Gewählter Spielmodus für Spieler 2.</param>
+        /// <returns>SpielStatus Objekt, für das neue Spiel.</returns>
         public SpielStatus InitSpiel(Spielmodi spieler1, Spielmodi spieler2)
         {
             this.spieler1 = spieler1;
             this.spieler2 = spieler2;
-            if (spieler1==Spielmodi.KILeicht || spieler1==Spielmodi.KISchwer)
-            {
-                status = new SpielStatus(spieler1, spieler2);
-            }
-            else
-            {
-                status = new SpielStatus(spieler1, spieler2);
-            }
+            status = new SpielStatus(spieler1, spieler2);
             return status;
         }
 
-        //Methode die im Falle eines Zuges einer KI aufgerufen wird
+        /// <summary>
+        /// Methode, die im Falle eines Zuges einer KI von der Oberfläche aufgerufen wird.
+        /// </summary>
+        /// <returns>SpielStatus Objekt, nach dem Zug der KI.</returns>
         public SpielStatus KiZug()
         {
-            //Unabhängig vom aktuellen Spieler wird die Leichte KI nach einen zufälligen Zug gefragt
+            //Da die leichte KI keine Perspektive braucht, muss bei ihr keine Unterscheidung gemacht werden, als welcher Spieler sie spielt.
             if (spieler1==Spielmodi.KILeicht||spieler2==Spielmodi.KILeicht)
             {
                 LeichteKI ki = new LeichteKI();
@@ -48,7 +57,7 @@ namespace TicTacToe
                 status.ZugBeenden();
             }
 
-            //Bei der Schweren KI muss die Rolle abgefragt werden, damit die KI aus der richtigen Perspektive spielt
+            //Bei der schweren KI muss die Rolle abgefragt werden, damit die KI aus der richtigen Perspektive spielt.
             else
             {
                 SchwereKI ki = new SchwereKI();
@@ -66,7 +75,11 @@ namespace TicTacToe
             return status;
         }
 
-        //Methode die im Falle eines Zuges eines Menschen aufgerufen wird
+        /// <summary>
+        /// Methode, die im Falle eines Zuges eines Menschen von der Oberfläche aufgerufen wird.
+        /// </summary>
+        /// <param name="k">Koordinate mit der Angabe, wo der Zug gemacht werden soll.</param>
+        /// <returns>SpielStatus Objekt nach dem Zug.</returns>
         public SpielStatus MenschZug(Koordinate k)
         {
             status.SetValide(Validiere(k));
@@ -79,7 +92,11 @@ namespace TicTacToe
             return status;
         }
 
-        //Prüft ob der übergebe Zug gültig ist
+        /// <summary>
+        /// Hilfsmethode von MenschZug(). Prüft, ob die übergebene Koordinate ein gültiger Zug ist.
+        /// </summary>
+        /// <param name="k">Zu prüfende Koordinate.</param>
+        /// <returns>True, wenn die Koordinate ein gültiger Zug ist, ansonsten false.</returns>
         private bool Validiere (Koordinate k)
         {
             if (status.GetFeld()[k.GetX(),k.GetY()]==0)
@@ -92,17 +109,21 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// Testet ob es für das aktuelle SpielStatus Objekt einen Sieger gibt.
+        /// </summary>
+        /// <returns>Ein Array mit den Feldern, die einen Sieg darstellen oder null.</returns>
         private Koordinate[] SiegTesten()
         {
             int[,] feld = status.GetFeld();
 
-            //Zahl des Spielers im Spielfeld Array der überprüft werden soll
+            //Zahl des Spielers, der im Spielfeld Array überprüft werden soll
             int spielerZahl;
 
-            //Array mit den Feldern mittels denen Gewonnen wurde
+            //Array mit den Feldern mittels denen gewonnen wurde
             Koordinate[] siegFelder = null;
 
-            //Identifizieren auf Welche Zahl im Feld geprüft werden muss
+            //Identifizieren, auf welche Zahl im Feld geprüft werden muss, da immer nur der Spieler geprüft werden muss, der eben einen Zug gemacht hat.
             if (status.GetSpieler1Zug())
             {
                 spielerZahl = 1;
@@ -111,7 +132,7 @@ namespace TicTacToe
             {
                 spielerZahl = 2;
             }
-            //Waagerecht und Senkrecht testen
+            //Waagerecht und senkrecht testen
             for (int i = 0; i < feld.GetLength(0); i++)
             {
                 //Waagerecht testen
@@ -138,6 +159,15 @@ namespace TicTacToe
             return siegFelder;
         }
         //Testet ob im übergebenen Spielfeld die übergebenen Koordinaten, die Nummer des übergebenen Spielers besitzen
+        /// <summary>
+        /// Hilfsmethode von SiegTesten(). Testet, ob im übergebenen Spielfeld die übergebenen Koordinaten die Nummer des übergebenen Spielers besitzen.
+        /// </summary>
+        /// <param name="feld">Zu prüfendes Spielfeld Array</param>
+        /// <param name="spielerZahl">Zu prüfende Zahl des Spielers</param>
+        /// <param name="k1">Koordinate des ersten Feldes</param>
+        /// <param name="k2">Koordinate des zweiten Feldes</param>
+        /// <param name="k3">Koordinate des dritten Feldes</param>
+        /// <returns></returns>
         private Koordinate[] TesteFelder(int[,] feld,int spielerZahl,Koordinate k1, Koordinate k2, Koordinate k3)
         {
             if (new[] { feld[k1.GetX(),k1.GetY()], feld[k2.GetX(),k2.GetY()], feld[k3.GetX(),k3.GetY()] }.All(x => x == spielerZahl))

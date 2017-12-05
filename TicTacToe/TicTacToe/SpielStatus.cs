@@ -6,94 +6,140 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
-    //Klasse um den Aktuellen Status des Spiels zu repräsentieren
+    /// <summary>
+    /// Klasse, mittels der der aktuelle Status des Spiels repräsentiert werden kann.
+    /// </summary>
     class SpielStatus
     {
 
-        //Repräsentation des Spielfeldes
+        /// <summary>
+        /// Repräsentation des Spielfeldes.
+        /// </summary>
         private int[,] feld = new int[3, 3];
 
-        //Spielmodi der Spieler
+        /// <summary>
+        /// Spielmodi der Spieler.
+        /// </summary>
         private SpielLogik.Spielmodi spieler1;
         private SpielLogik.Spielmodi spieler2;
 
-        //Gibt an, ob der Zug gültig war
+        /// <summary>
+        /// Gibt an, ob der Zug gültig war.
+        /// </summary>
         private bool valide = true;
 
-        //Flag zum Markieren, ob Spieler 1 am Zug ist
+        /// <summary>
+        /// Flag zum Markieren, ob Spieler 1 am Zug ist.
+        /// </summary>
         private bool spieler1Zug = true;
 
-        //Flag zum Markieren, ob eine KI am Zug ist
+        /// <summary>
+        /// Flag zum Markieren, ob eine KI am Zug ist.
+        /// </summary>
         private bool kiZug;
 
-        //Flag zum Markieren eines Unedntschieden
+        /// <summary>
+        /// Flag zum Markieren eines Unentschieden.
+        /// </summary>
         private bool unentschieden = false;
 
-        //Zähler für die Züge die gemacht wurden, dient zur Feststellung eines Unentschieden
+        /// <summary>
+        /// Zähler für die Züge, die gemacht wurden, dient zur Feststellung eines Unentschieden.
+        /// </summary>
         private int zuege = 0;
 
-        //Sieg Felder
+        /// <summary>
+        /// Sieg Felder.
+        /// </summary>
         private Koordinate[] siegFelder;
 
-        //Konstruktor
+        /// <summary>
+        /// Konstruktor. Bereitet das Spiel entsprechend der übergebenen Spielmodi vor.
+        /// </summary>
+        /// <param name="spieler1">Spielmodus des ersten Spielers.</param>
+        /// <param name="spieler2">Spielmodus des zweiten Spielers.</param>
         public SpielStatus(SpielLogik.Spielmodi spieler1, SpielLogik.Spielmodi spieler2)
         {
             this.spieler1 = spieler1;
             this.spieler2 = spieler2;
+            //Ist der erste Spieler eine KI muss die KI Flag gesetzt werden, damit diese auch anfängt.
             if (spieler1==SpielLogik.Spielmodi.KILeicht || spieler1==SpielLogik.Spielmodi.KISchwer)
             {
                 kiZug = true;
             }
         }
 
-        //Getter für das Spielfeld
+        /// <summary>
+        /// Getter für das Spielfeld Array.
+        /// </summary>
+        /// <returns>Spielfeld Array.</returns>
         public int[,] GetFeld()
         {
             return feld;
         }
-        //Getter für die valide Flag
+        /// <summary>
+        /// Getter für die valide Flag.
+        /// </summary>
+        /// <returns>Valide Flag.</returns>
         public bool GetValide()
         {
             return valide;
         }
-        //Getter für die Spieler1 Flag
+        /// <summary>
+        /// Getter für die Spieler1Zug Flag.
+        /// </summary>
+        /// <returns>Spieler1Zug Flag.</returns>
         public bool GetSpieler1Zug()
         {
             return spieler1Zug;
         }
-        //Getter für die KIZug Flag
+        /// <summary>
+        /// Getter für die KiZug Flag.
+        /// </summary>
+        /// <returns>KiZug Flag.</returns>
         public bool GetKiZug()
         {
             return kiZug;
         }
-        //Getter für siegFelder Array
+        /// <summary>
+        /// Getter für das SiegFelder Array.
+        /// </summary>
+        /// <returns>SiegFelder Array.</returns>
         public Koordinate[] GetSiegFelder()
         {
             return siegFelder;
         }
-        //Getter für die Unentschieden Flag
+        /// <summary>
+        /// Getter für die Unentschieden Flag.
+        /// </summary>
+        /// <returns>Unentschieden Flag.</returns>
         public bool GetUnentschieden()
         {
             return unentschieden;
         }
 
-        //Setter für die valide Flag
+        /// <summary>
+        /// Setter für die valide Flag.
+        /// </summary>
+        /// <param name="valide">Zu setzender Wert.</param>
         public void SetValide(bool valide)
         {
             this.valide = valide;
         }
-        //Setter für die siegFelder
+        /// <summary>
+        /// Setter für die Sieg Felder.
+        /// </summary>
+        /// <param name="siegFelder">Array mit den Sieg Feldern</param>
         public void SetSiegFelder(Koordinate[] siegFelder)
         {
             this.siegFelder = siegFelder;
         }
-        //Setter für die Unentschieden Flag
-        public void SetUnentschieden(bool unentschieden)
-        {
-            this.unentschieden = unentschieden;
-        }
 
-        //Setzt den übergebenen Spieler an die angegebene Position
+        /// <summary>
+        /// Setzt den übergebenen Spieler an die übergebene Position.
+        /// </summary>
+        /// <param name="k">Zu setzende Koordinate.</param>
+        /// <param name="spieler1">Zu setzenden Spieler.</param>
         public void Setzte(Koordinate k, bool spieler1)
         {
             if (spieler1)
@@ -105,9 +151,12 @@ namespace TicTacToe
                 feld[k.GetX(), k.GetY()] = 2;
             }
         }
-        /*Negiert den Wert der Spieler1Zug Flag und erhöht den Wert des Zug Zählers um 1.
-         * Im Falle eines vollen Spielfeldes wird die Unentschieden Flag auf true gesetzt.
-         * Ist der Spieler der jetzt drann ist eine KI so wird die Flag entsprechend gesetzt*/
+        /// <summary>
+        /// Beendet den aktuellen Zug.
+        /// Negiert den Wert der Spieler1Zug Flag und erhöht den Wert des Zug Zählers um 1.
+        /// Im Falle eines vollen Spielfeldes wird die Unentschieden Flag auf true gesetzt.
+        /// Ist der Spieler der jetzt dran ist eine KI, so wird die Flag entsprechend gesetzt.
+        /// </summary>
         public void ZugBeenden()
         {
             spieler1Zug = !spieler1Zug;

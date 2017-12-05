@@ -140,41 +140,43 @@
             // 
             // LblSpieler1
             // 
-            this.LblSpieler1.AutoSize = true;
             this.LblSpieler1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LblSpieler1.Location = new System.Drawing.Point(251, 12);
             this.LblSpieler1.Name = "LblSpieler1";
-            this.LblSpieler1.Size = new System.Drawing.Size(66, 19);
+            this.LblSpieler1.Size = new System.Drawing.Size(89, 19);
             this.LblSpieler1.TabIndex = 9;
             this.LblSpieler1.Text = "Spieler 1";
+            this.LblSpieler1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LblSpieler2
             // 
-            this.LblSpieler2.AutoSize = true;
             this.LblSpieler2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LblSpieler2.Location = new System.Drawing.Point(402, 12);
+            this.LblSpieler2.Location = new System.Drawing.Point(379, 12);
             this.LblSpieler2.Name = "LblSpieler2";
-            this.LblSpieler2.Size = new System.Drawing.Size(66, 19);
+            this.LblSpieler2.Size = new System.Drawing.Size(89, 19);
             this.LblSpieler2.TabIndex = 10;
             this.LblSpieler2.Text = "Spieler 2";
+            this.LblSpieler2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MtxtBoxSpieler1
             // 
             this.MtxtBoxSpieler1.Location = new System.Drawing.Point(251, 65);
             this.MtxtBoxSpieler1.Mask = "a";
             this.MtxtBoxSpieler1.Name = "MtxtBoxSpieler1";
-            this.MtxtBoxSpieler1.Size = new System.Drawing.Size(65, 22);
+            this.MtxtBoxSpieler1.Size = new System.Drawing.Size(89, 22);
             this.MtxtBoxSpieler1.TabIndex = 11;
             this.MtxtBoxSpieler1.Text = "X";
+            this.MtxtBoxSpieler1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MtxtBoxSpieler2
             // 
-            this.MtxtBoxSpieler2.Location = new System.Drawing.Point(403, 65);
+            this.MtxtBoxSpieler2.Location = new System.Drawing.Point(379, 65);
             this.MtxtBoxSpieler2.Mask = "a";
             this.MtxtBoxSpieler2.Name = "MtxtBoxSpieler2";
-            this.MtxtBoxSpieler2.Size = new System.Drawing.Size(65, 22);
+            this.MtxtBoxSpieler2.Size = new System.Drawing.Size(89, 22);
             this.MtxtBoxSpieler2.TabIndex = 12;
             this.MtxtBoxSpieler2.Text = "O";
+            this.MtxtBoxSpieler2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CoBoxSpieler1
             // 
@@ -209,7 +211,7 @@
             this.LblSpieler1Punkte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LblSpieler1Punkte.Location = new System.Drawing.Point(251, 31);
             this.LblSpieler1Punkte.Name = "LblSpieler1Punkte";
-            this.LblSpieler1Punkte.Size = new System.Drawing.Size(66, 31);
+            this.LblSpieler1Punkte.Size = new System.Drawing.Size(89, 31);
             this.LblSpieler1Punkte.TabIndex = 16;
             this.LblSpieler1Punkte.Text = "0";
             this.LblSpieler1Punkte.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -217,9 +219,9 @@
             // LblSpieler2Punkte
             // 
             this.LblSpieler2Punkte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LblSpieler2Punkte.Location = new System.Drawing.Point(402, 31);
+            this.LblSpieler2Punkte.Location = new System.Drawing.Point(379, 31);
             this.LblSpieler2Punkte.Name = "LblSpieler2Punkte";
-            this.LblSpieler2Punkte.Size = new System.Drawing.Size(66, 31);
+            this.LblSpieler2Punkte.Size = new System.Drawing.Size(89, 31);
             this.LblSpieler2Punkte.TabIndex = 17;
             this.LblSpieler2Punkte.Text = "0";
             this.LblSpieler2Punkte.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -248,7 +250,7 @@
             this.Controls.Add(this.Btn0x1);
             this.Controls.Add(this.Btn0x0);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Tic Tac Toe";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -11,38 +11,60 @@ using System.Windows.Forms;
 
 namespace TicTacToe
 {
+    /// <summary>
+    /// Zentrale Oberfläche.
+    /// </summary>
     public partial class Form1 : Form
     {
-        //Stringarray mit den verschiedenen Spielmodi die für jeden Spieler gewählt werden können
+        /// <summary>
+        /// String Array mit den verschiedenen Spielmodi, die für jeden Spieler gewählt werden können.
+        /// </summary>
         private string[] spielmodi = { "Mensch", "KI Leicht", "KI Schwer" };
 
-        //Aktueller Spielmodus von Spieler 1
+        /// <summary>
+        /// Aktueller Spielmodus von Spieler 1.
+        /// </summary>
         SpielLogik.Spielmodi spieler1Modus;
 
-        //Aktueller Spielmodus von Spieler 2
+        /// <summary>
+        /// Aktueller Spielmodus von Spieler 2.
+        /// </summary>
         SpielLogik.Spielmodi spieler2Modus;
 
-        //Symbol von Spieler 1 auf dem Spielfeld
+        /// <summary>
+        /// Symbol von Spieler 1 auf dem Spielfeld.
+        /// </summary>
         private string spieler1Symbol;
 
-        //Symbol von Spieler 2 auf dem Spielfeld
+        /// <summary>
+        /// Symbol von Spieler 2 auf dem Spielfeld.
+        /// </summary>
         private string spieler2Symbol;
 
-        //SpielLogik Objekt das von dieser Oberfläche verwendet wird
+        /// <summary>
+        /// SpielLogik Objekt, das von dieser Oberfläche verwendet wird.
+        /// </summary>
         private SpielLogik sl = new SpielLogik();
 
-        //Array mit den Buttons die das Spielfeld bilden, um diese über Indizes anzusprechen
+        /// <summary>
+        /// Array mit den Buttons, die das Spielfeld bilden, um diese über Indizes anzusprechen.
+        /// </summary>
         private Button[,] buttons;
 
-        //Spielstatus Objekt, das von der SpielLogik zurückgegeben und angezeigt wird
+        /// <summary>
+        /// SpielStatus Objekt, das von der SpielLogik zurückgegeben und angezeigt wird.
+        /// </summary>
         private SpielStatus status;
 
-        //Farbenobjekte um den aktiven Spieler und die Sieg Felder zu markieren
+        /// <summary>
+        /// Farbenobjekte um den aktiven Spieler und die Sieg Felder zu markieren.
+        /// </summary>
         private Color markiert = Color.FromArgb(0, 204, 102);
         private Color nichtMarkiert = SystemColors.Control;
 
-        /*Repräsentation der Antwortmöglichkeiten des Dialogs am Ende einer Partie sowie für die Situation,
-         * dass die Partie noch läuft*/
+        /// <summary>
+        /// Repräsentation der Antwortmöglichkeiten des Dialogs am Ende einer Partie sowie für die Situation, dass die Partie noch läuft.
+        /// </summary>
         private enum AnzeigeErgebnis {Fortsetzen, Beenden, Unbestimmt};
 
         public Form1()
@@ -58,12 +80,15 @@ namespace TicTacToe
             CoBoxSpieler1.SelectedIndex = 0;
             CoBoxSpieler2.SelectedIndex = 0;
 
-            //Buttonarray anlegen
+            //Button Array anlegen
             buttons=new [,]{ { Btn0x0, Btn0x1, Btn0x2 }, { Btn1x0, Btn1x1, Btn1x2 }, { Btn2x0, Btn2x1, Btn2x2 } };
 
         }
 
-        //Methode die die Oberflächenelemente gemäß des aktuellen Spielstatus Objekts anpasst
+        /// <summary>
+        /// Methode, die die Oberflächenelemente gemäß des aktuellen SpielStatus Objekts anpasst.
+        /// </summary>
+        /// <returns>Gibt an, ob die Partie noch läuft, oder wie nach dem Ende einer Partie weiter verfahren werden soll.</returns>
         private AnzeigeErgebnis Anzeigen()
         {
             SpielfeldAktualisieren();
@@ -81,7 +106,9 @@ namespace TicTacToe
             return AnzeigeErgebnis.Unbestimmt;
         }
 
-        //Startet eine Partie
+        /// <summary>
+        /// Startet eine neue Partie.
+        /// </summary>
         private void SpielStarten()
         {
             status = sl.InitSpiel(spieler1Modus, spieler2Modus);
@@ -97,23 +124,46 @@ namespace TicTacToe
             Anzeigen();
         }
 
-        //Startet ein neues Spiel gemäß der Informationen bezüglich Spielerzeichen und Spielmodi
+        /// <summary>
+        /// Startet ein neues Spiel gemäß der Informationen bezüglich Spielerzeichen und Spielmodi.
+        /// </summary>
+        /// <param name="sender">Objekt welches das Event auslöst.</param>
+        /// <param name="e">Informationen zum Event.</param>
         private void BtnSpielStarten_Click(object sender, EventArgs e)
         {
-            //todo: prüfen ob die Spieler beide ein Symbol haben
+            //Punkte Label zurücksetzen
             LblSpieler1Punkte.Text = "0";
             LblSpieler2Punkte.Text = "0";
+
+            //Spielersymbole aus den MaskedTextBoxen entnehmen
             spieler1Symbol = MtxtBoxSpieler1.Text;
             spieler2Symbol = MtxtBoxSpieler2.Text;
-            spieler1Modus = HilfsKlasse.IndexZuSpielmodus(CoBoxSpieler1.SelectedIndex);
-            spieler2Modus = HilfsKlasse.IndexZuSpielmodus(CoBoxSpieler2.SelectedIndex);
-            SpielStarten();
-            KIZugAbarbeiten(true);
+
+            //Spielmodi aus den ComboBoxen entnehmen
+            spieler1Modus = IndexZuSpielmodus(CoBoxSpieler1.SelectedIndex);
+            spieler2Modus = IndexZuSpielmodus(CoBoxSpieler2.SelectedIndex);
+
+            //Wenn ein Spieler kein Symbol hat wird das Spiel nicht gestartet
+            if (String.IsNullOrWhiteSpace(spieler1Symbol) || String.IsNullOrWhiteSpace(spieler2Symbol))
+            {
+                MessageBox.Show("Ein Spieler hat kein Symbol angegeben.");
+            }
+            else
+            {
+                SpielStarten();
+                KIZugAbarbeiten(true);
+            }
+            
         }
 
-        //Methode die von allen Buttons die das Spielfeld bilden aufgerufen wird
+        /// <summary>
+        /// Methode, die von allen Buttons die das Spielfeld bilden aufgerufen wird. Identifiziert den Button und macht den entsprechenden Zug.
+        /// </summary>
+        /// <param name="sender">Objekt welches das Event auslöst.</param>
+        /// <param name="e">Informationen zum Event.</param>
         private void Spielfeld_Click(object sender, EventArgs e)
         {
+            //Wenn aktuell eine KI dran ist, wird der Klick ignoriert
             if (status.GetKiZug()==false)
             {
                 for (int i = 0; i < buttons.GetLength(0); i++)
@@ -126,15 +176,18 @@ namespace TicTacToe
                         }
                     }
                 }
+                //Ergebnis des Zuges anzeigen, Ergebnis der Anzeige verarbeiten, gegebenenfalls eine KI ihren Zug machen lassen
                 KIZugAbarbeiten(AnzeigeErgebnisBearbeiten(Anzeigen()));
             }
             
         }
-        //Methode wird aufgerufen, damit die KI ihren Zug machen kann
+        /// <summary>
+        /// Methode wird aufgerufen, damit die KI ihren Zug machen kann.
+        /// </summary>
+        /// <param name="erlaubt">Flag, ob ein KI-Zug noch nötig ist.</param>
         private void KIZugAbarbeiten(bool erlaubt)
         {
-            /*dies tritt ein wenn eine KI drann ist und läuft weiter 
-            *wenn der andere Spieler ebenfalls eine KI ist und das Spiel nicht beendet wurde*/
+            /*Dies tritt ein, wenn eine KI dran ist und läuft weiter, wenn der andere Spieler ebenfalls eine KI ist und das Spiel nicht beendet wurde.*/
             while (status.GetKiZug() && erlaubt)
             {
                 status = sl.KiZug();
@@ -142,9 +195,11 @@ namespace TicTacToe
                 erlaubt= AnzeigeErgebnisBearbeiten(erg);
             }
         }
-
-        /*Öffnet im Falle eines Sieges oder Unentschieden einen Dialog in dem der Spieler auswählen kann,
-         * ob das Spiel fortgesetzt oder beendet werden soll */
+        /// <summary>
+        /// Öffnet im Falle eines Sieges oder Unentschieden einen Dialog, in dem der Spieler auswählen kann, ob das Spiel fortgesetzt oder beendet werden soll.
+        /// </summary>
+        /// <param name="nachricht">Nachricht, die in der Mitteilung angezeigt werden soll (Sieg Spieler 1 / Spieler 2, Unentschieden).</param>
+        /// <returns>Ergebnis, wie mit der Partie weiter verfahren werden soll.</returns>
         private AnzeigeErgebnis MitteilungAnzeigen(string nachricht)
         {
             Mitteilung mitteilung = new Mitteilung(nachricht);
@@ -158,7 +213,9 @@ namespace TicTacToe
             }
         }
 
-        //Das Spielfeld abhängig von den Nummern im Status Objekt mit den Spielerzeichen versehen
+        /// <summary>
+        /// Das Spielfeld abhängig von den Nummern im SpielStatus Objekt mit den Spielerzeichen versehen.
+        /// </summary>
         private void SpielfeldAktualisieren()
         {
             for (int i = 0; i < buttons.GetLength(0); i++)
@@ -183,7 +240,9 @@ namespace TicTacToe
                 }
             }
         }
-        //Markiert welcher Spieler am Zug ist
+        /// <summary>
+        /// Markiert, welcher Spieler am Zug ist. Hilfsmethode von Anzeigen().
+        /// </summary>
         private void SpielerAktualisieren()
         {
             if (status.GetSpieler1Zug())
@@ -197,14 +256,19 @@ namespace TicTacToe
                 LblSpieler1.BackColor = nichtMarkiert;
             }
         }
-        //Sieger anzeigen, Sieg Felder anzeigen, Punkte anpassen
+        /// <summary>
+        /// Sieger Mitteilung anzeigen, Sieg Felder anzeigen, Punkte anpassen. Hilfsmethode von Anzeigen().
+        /// </summary>
+        /// <returns>Ergebnis des Mitteilung Fensters.</returns>
         private AnzeigeErgebnis SiegerAktualisieren()
         {
+            //Sieg Felder markieren
             for (int i = 0; i < status.GetSiegFelder().Length; i++)
             {
                 buttons[status.GetSiegFelder()[i].GetX(), status.GetSiegFelder()[i].GetY()].BackColor = markiert;
             }
-            //Muss negiert werden, da beim Beenden des Zuges die Flag umgeschaltet wurde
+            /*Punkte anpassen und Sieg Meldung anzeigen.
+             * Muss negiert werden, da beim Beenden des Zuges die Flag umgeschaltet wurde*/
             if (!status.GetSpieler1Zug())
             {
                 LblSpieler1Punkte.Text = Int32.Parse(LblSpieler1Punkte.Text) + 1 + "";
@@ -216,13 +280,20 @@ namespace TicTacToe
                 return MitteilungAnzeigen("Sieg Spieler 2");
             }
         }
-        //Anzeigen eines Unentschieden
+        /// <summary>
+        /// Wird im Falle eines Unentschieden aufgerufen. Hilfsmethode von Anzeigen().
+        /// </summary>
+        /// <returns>Ergebnis des Mitteilung Fensters.</returns>
         private AnzeigeErgebnis Unentschieden()
         {
             AnzeigeErgebnis ergebnis = MitteilungAnzeigen("Unentschieden");
             return ergebnis;
         }
-        //Löst abhängig von erg ein neues Spiel aus oder setzt das Aktuelle fort oder beendet es
+        /// <summary>
+        /// Löst abhängig von AnzeigeErgebnis ein neues Spiel aus oder setzt das Aktuelle fort oder beendet es.
+        /// </summary>
+        /// <param name="erg">AnzeigeErgebnis Objekt der Mitteilung.</param>
+        /// <returns>Flag die angibt, ob weiterhin KI Züge abgefragt werden sollen.</returns>
         private bool AnzeigeErgebnisBearbeiten(AnzeigeErgebnis erg)
         {
             if (erg == AnzeigeErgebnis.Fortsetzen)
@@ -237,7 +308,9 @@ namespace TicTacToe
             }
             return true;
         }
-        //Blockiert das Spielfeld, wird benötigt wenn ein Spiel beendet werden soll
+        /// <summary>
+        /// Blockiert das Spielfeld, wird benötigt, wenn ein Spiel beendet werden soll.
+        /// </summary>
         private void SpielBlockieren()
         {
             for (int i = 0; i < buttons.GetLength(0); i++)
@@ -249,6 +322,27 @@ namespace TicTacToe
                     buttons[i, j].Enabled = false;
                 }
             }
+        }
+        /// <summary>
+        /// Methode um einen Index aus einer der ComboBoxen in einen Spielmodus zu überführen.
+        /// </summary>
+        /// <param name="index">Index der ComboBox.</param>
+        /// <returns>Spielmodus passend zum Index.</returns>
+        private static SpielLogik.Spielmodi IndexZuSpielmodus(int index)
+        {
+            SpielLogik.Spielmodi modus = SpielLogik.Spielmodi.Mensch;
+            switch (index)
+            {
+                case 1:
+                    modus = SpielLogik.Spielmodi.KILeicht;
+                    break;
+                case 2:
+                    modus = SpielLogik.Spielmodi.KISchwer;
+                    break;
+                default:
+                    break;
+            }
+            return modus;
         }
     }
 }

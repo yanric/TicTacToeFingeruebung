@@ -6,15 +6,30 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
+    /// <summary>
+    /// Schwere KI, die nach dem Minimax-Algorithmus spielt.
+    /// </summary>
     class SchwereKI
     {
+        /// <summary>
+        /// Errechnet einen Zug für die KI, abhängig vom übergebenen Feld und der Perspektive.
+        /// </summary>
+        /// <param name="feld">Array mit den Spielerzahlen als Repräsentation des Spielfelds.</param>
+        /// <param name="perspektive">Angabe der Perspektive der KI, entweder Spieler 1 oder Spieler 2.</param>
+        /// <returns>Koordinaten Objekt für den Zug der KI.</returns>
         public Koordinate GetZug(int[,] feld, int perspektive)
         {
             GewichteteKoordinate zug = MiniMax(new KISpielbrett(feld), perspektive, perspektive);
             return zug.GetKoordinate();
         }
 
-        //Rekursive Funktion, um entweder eine Siegmöglichkeit zu finden, oder den Sieg des Gegners zu verhindern
+        /// <summary>
+        /// Rekursive Funktion, um entweder eine Siegmöglichkeit zu finden, oder den Sieg des Gegners zu verhindern.
+        /// </summary>
+        /// <param name="brett">Spielbrett Objekt, mit dem die KI das Spiel simuliert.</param>
+        /// <param name="spielerNummer">Die Nummer des Spielers, der in der aktuellen Rekursion am Zug ist.</param>
+        /// <param name="vorgeseheneSpielerNummer">Nummer des Spielers, den die KI repräsentieren soll.</param>
+        /// <returns>Die gewichtete Koordinate, die sich als der beste Zug ergeben hat.</returns>
         private GewichteteKoordinate MiniMax(KISpielbrett brett, int spielerNummer, int vorgeseheneSpielerNummer)
         {
             /*Bester Zug, der sich aus der Rekursion ergeben hat. Entweder eine Siegmöglichkeit
@@ -32,17 +47,17 @@ namespace TicTacToe
                 GewichteteKoordinate neuerZug = optionen[i];
                 neuesBrett.MacheZug(neuerZug, spielerNummer);
 
-                /*Solange dieses Spiebrett das Spiel nicht beendet, werden rekursiv neue Spielbretter angelegt.
+                /*Solange dieses Spielbrett das Spiel nicht beendet, werden rekursiv neue Spielbretter angelegt.
                  * Dabei wird der Spieler gewechselt*/
                 if (neuesBrett.GetSieger()==0 && neuesBrett.GetLeereFelder().Count>0)
                 {
                     int neueSpielerNummer = InvertiereSpieler(spielerNummer);
                     GewichteteKoordinate tempZug = MiniMax(neuesBrett, neueSpielerNummer, vorgeseheneSpielerNummer);
                     
-                    //Übernimmt die die Bewertung des rekursiven Zugs.
+                    //Übernimmt die Bewertung des rekursiven Zugs.
                     neuerZug.SetBewertung(tempZug.GetBewertung());
                 }
-                //Beendet das aktuelle Brett das Spiel, wird dies Bewertet.
+                //Beendet das aktuelle Brett das Spiel, wird dies bewertet.
                 else
                 {
                     if (neuesBrett.GetSieger()==0)
@@ -59,7 +74,7 @@ namespace TicTacToe
                     }
                 }
 
-                /* Der gemachte Zug, wird zum besten Zug, wenn dieser Entweder zum Sieg führt,
+                /* Der gemachte Zug wird zum besten Zug, wenn dieser entweder zum Sieg führt,
                  * den des Gegners verhindert, oder es keine Wahl (Unentschieden) gibt*/
                 if (besterZug==null || 
                     (spielerNummer==InvertiereSpieler(vorgeseheneSpielerNummer) && neuerZug.GetBewertung()<besterZug.GetBewertung()) || 
@@ -70,7 +85,11 @@ namespace TicTacToe
             }
             return besterZug;
         }
-
+        /// <summary>
+        /// Hilfsmethode, um die Nummer des Spielers zu invertieren.
+        /// </summary>
+        /// <param name="spielerNummer">Nummer des aktuellen Spielers.</param>
+        /// <returns>Nummer des anderen Spielers.</returns>
         private int InvertiereSpieler(int spielerNummer)
         {
             if (spielerNummer==1)

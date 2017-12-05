@@ -52,7 +52,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GewichteteKoordinate.cs" />
-    <Compile Include="HilfsKlasse.cs" />
     <Compile Include="Koordinate.cs" />
     <Compile Include="LeichteKI.cs" />
     <Compile Include="Mitteilung.cs">

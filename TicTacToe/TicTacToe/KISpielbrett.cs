@@ -6,17 +6,30 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
-    //Hilfsklasse die von der Schweren KI benötigt wird, um Züge zu simulieren.
+    /// <summary>
+    /// Hilfsklasse, die von der schweren KI benötigt wird, um Züge zu simulieren.
+    /// </summary>
     class KISpielbrett
     {
+        /// <summary>
+        /// Array, welches das Spielfeld repräsentiert.
+        /// </summary>
         private int[,] brett;
 
-        //Liste aller Leeren Felder auf dem Brett
+        /// <summary>
+        /// Liste aller Leeren Felder auf dem Brett.
+        /// </summary>
         private List<GewichteteKoordinate> leereFelder;
 
-        //Sieger dieses Brettes
+        /// <summary>
+        /// Sieger dieses Brettes.
+        /// </summary>
         private int sieger;
 
+        /// <summary>
+        /// Konstruktor. Erzeugt eine eigene Kopie des übergebenen Arrays, um darauf das Spiel zu simulieren.
+        /// </summary>
+        /// <param name="brett">Array, aus dem das Spielbrett erzeugt werden soll.</param>
         public KISpielbrett(int [,] brett)
         {
             this.brett = new int[3, 3];
@@ -24,11 +37,19 @@ namespace TicTacToe
             BerechneLeereFelder();
         }
 
+        /// <summary>
+        /// Getter für die Liste der leeren Felder auf dem Spielfeld.
+        /// </summary>
+        /// <returns>Liste der leeren Felder.</returns>
         public List<GewichteteKoordinate> GetLeereFelder()
         {
             return leereFelder;
         }
-
+        /// <summary>
+        /// Macht an der übergebenen Koordinate den Zug für den übergebenen Spieler.
+        /// </summary>
+        /// <param name="k">Koordinate für den Zug.</param>
+        /// <param name="spielerNummer">Nummer des Spielers.</param>
         public void MacheZug(GewichteteKoordinate k, int spielerNummer)
         {
             brett[k.GetKoordinate().GetX(), k.GetKoordinate().GetY()] = spielerNummer;
@@ -36,6 +57,9 @@ namespace TicTacToe
             sieger = SiegerTesten();
         }
 
+        /// <summary>
+        /// Hilfsmethode welche nach dem Erzeugen des Spielbrettes und dem machen eines Zuges die restlichen leeren Felder berechnet.
+        /// </summary>
         private void BerechneLeereFelder()
         {
             leereFelder = new List<GewichteteKoordinate>();
@@ -50,25 +74,32 @@ namespace TicTacToe
                 }
             }
         }
-
-        public int[,] GetBrett()
-        {
-            return brett;
-        }
+        /// <summary>
+        /// Getter für den Sieger dieses Brettes.
+        /// </summary>
+        /// <returns>1/2 falls Spieler 1/2 gewonnen hat, ansonsten 0.</returns>
         public int GetSieger()
         {
             return sieger;
         }
 
+        /// <summary>
+        /// Erzeugt eine Kopie des aktuellen Status des Spielbrettes.
+        /// </summary>
+        /// <returns>Kopie des Spielbrettes.</returns>
         public KISpielbrett Kopie()
         {
             return new KISpielbrett(brett);
         }
-        //Testet ob irgendein Spieler mit dem aktuellen Brett gewonnen hat. Falle eines Sieges wird die entsprechende Nummer des Spielers zurückgegeben
+        /// <summary>
+        /// Testet, ob irgendein Spieler mit dem aktuellen Brett gewonnen hat. Im Falle eines Sieges wird die entsprechende Nummer des Spielers zurückgegeben.
+        /// </summary>
+        /// <returns>1/2 falls Spieler 1/2 gewonnen hat, ansonsten 0.</returns>
         private int SiegerTesten()
         {
             for (int i = 0; i < brett.GetLength(0); i++)
             {
+                //Reihen testen
                 if (brett[i,0]!=0)
                 {
                     int testWert = brett[i, 0];
@@ -77,6 +108,7 @@ namespace TicTacToe
                         return testWert;
                     }
                 }
+                //Spalten testen
                 if (brett[0,i]!=0)
                 {
                     int testWert =brett[0, i];
@@ -86,6 +118,7 @@ namespace TicTacToe
                     }
                 }
             }
+            //Erste Diagonale testen
             if (brett[0,0]!=0)
             {
                 int testWert = brett[0, 0];
@@ -94,6 +127,7 @@ namespace TicTacToe
                     return testWert;
                 }
             }
+            //Zweite Diagonale testen
             if (brett[0,2]!=0)
             {
                 int testWert = brett[0, 2];
