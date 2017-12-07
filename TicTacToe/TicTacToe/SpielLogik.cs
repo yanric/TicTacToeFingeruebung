@@ -80,8 +80,9 @@ namespace TicTacToe
         /// </summary>
         /// <param name="k">Koordinate mit der Angabe, wo der Zug gemacht werden soll.</param>
         /// <returns>SpielStatus Objekt nach dem Zug.</returns>
-        public SpielStatus MenschZug(Koordinate k)
+        public SpielStatus MenschZug(int x, int y)
         {
+            Koordinate k = new Koordinate(x, y);
             status.SetValide(Validiere(k));
             if (status.GetValide())
             {

@@ -172,7 +172,7 @@ namespace TicTacToe
                     {
                         if (sender == buttons[i, j])
                         {
-                            status = sl.MenschZug(new Koordinate(i,j));
+                            status = sl.MenschZug(i,j);
                         }
                     }
                 }
@@ -187,7 +187,7 @@ namespace TicTacToe
         /// <param name="erlaubt">Flag, ob ein KI-Zug noch nötig ist.</param>
         private void KIZugAbarbeiten(bool erlaubt)
         {
-            /*Dies tritt ein, wenn eine KI dran ist und läuft weiter, wenn der andere Spieler ebenfalls eine KI ist und das Spiel nicht beendet wurde.*/
+            //Dies tritt ein, wenn eine KI dran ist und läuft weiter, wenn der andere Spieler ebenfalls eine KI ist und das Spiel nicht beendet wurde.
             while (status.GetKiZug() && erlaubt)
             {
                 status = sl.KiZug();
@@ -233,8 +233,6 @@ namespace TicTacToe
                             break;
                         case 2:
                             buttons[i, j].Text = spieler2Symbol;
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -338,8 +336,6 @@ namespace TicTacToe
                     break;
                 case 2:
                     modus = SpielLogik.Spielmodi.KISchwer;
-                    break;
-                default:
                     break;
             }
             return modus;

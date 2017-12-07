@@ -51,6 +51,7 @@
             // Btn0x0
             // 
             this.Btn0x0.Enabled = false;
+            this.Btn0x0.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn0x0.Location = new System.Drawing.Point(8, 12);
             this.Btn0x0.Name = "Btn0x0";
             this.Btn0x0.Size = new System.Drawing.Size(75, 75);
@@ -61,6 +62,7 @@
             // Btn0x1
             // 
             this.Btn0x1.Enabled = false;
+            this.Btn0x1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn0x1.Location = new System.Drawing.Point(89, 12);
             this.Btn0x1.Name = "Btn0x1";
             this.Btn0x1.Size = new System.Drawing.Size(75, 75);
@@ -71,6 +73,7 @@
             // Btn0x2
             // 
             this.Btn0x2.Enabled = false;
+            this.Btn0x2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn0x2.Location = new System.Drawing.Point(170, 12);
             this.Btn0x2.Name = "Btn0x2";
             this.Btn0x2.Size = new System.Drawing.Size(75, 75);
@@ -81,6 +84,7 @@
             // Btn1x0
             // 
             this.Btn1x0.Enabled = false;
+            this.Btn1x0.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn1x0.Location = new System.Drawing.Point(8, 93);
             this.Btn1x0.Name = "Btn1x0";
             this.Btn1x0.Size = new System.Drawing.Size(75, 75);
@@ -91,6 +95,7 @@
             // Btn1x1
             // 
             this.Btn1x1.Enabled = false;
+            this.Btn1x1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn1x1.Location = new System.Drawing.Point(89, 93);
             this.Btn1x1.Name = "Btn1x1";
             this.Btn1x1.Size = new System.Drawing.Size(75, 75);
@@ -101,6 +106,7 @@
             // Btn1x2
             // 
             this.Btn1x2.Enabled = false;
+            this.Btn1x2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn1x2.Location = new System.Drawing.Point(170, 93);
             this.Btn1x2.Name = "Btn1x2";
             this.Btn1x2.Size = new System.Drawing.Size(75, 75);
@@ -111,6 +117,7 @@
             // Btn2x0
             // 
             this.Btn2x0.Enabled = false;
+            this.Btn2x0.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn2x0.Location = new System.Drawing.Point(8, 174);
             this.Btn2x0.Name = "Btn2x0";
             this.Btn2x0.Size = new System.Drawing.Size(75, 75);
@@ -121,6 +128,7 @@
             // Btn2x1
             // 
             this.Btn2x1.Enabled = false;
+            this.Btn2x1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn2x1.Location = new System.Drawing.Point(89, 174);
             this.Btn2x1.Name = "Btn2x1";
             this.Btn2x1.Size = new System.Drawing.Size(75, 75);
@@ -131,6 +139,7 @@
             // Btn2x2
             // 
             this.Btn2x2.Enabled = false;
+            this.Btn2x2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn2x2.Location = new System.Drawing.Point(170, 174);
             this.Btn2x2.Name = "Btn2x2";
             this.Btn2x2.Size = new System.Drawing.Size(75, 75);
